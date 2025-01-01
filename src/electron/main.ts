@@ -9,7 +9,8 @@ import { resolvePreLoadPath } from './pathResolver.js';
 const handleOnReady = () => {
 	const mainWindow = new BrowserWindow({
 		webPreferences: {
-			preload: resolvePreLoadPath()
+			preload: resolvePreLoadPath(),
+			sandbox: false
 		}
 	});
 	if (isDevEnv()) mainWindow.loadURL(DEV_URL);
