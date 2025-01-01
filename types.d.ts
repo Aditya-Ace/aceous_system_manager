@@ -22,7 +22,7 @@ type FrameWindowAction = 'CLOSE' | 'MAXIMIZE' | 'MINIMIZE';
 
 type UnsubscribeFunction = () => void;
 
-interface Window {
+interface Window extends Window {
 	electron: {
 		subscribeStatistics: (
 			callback: (statistics: Statistics) => void
