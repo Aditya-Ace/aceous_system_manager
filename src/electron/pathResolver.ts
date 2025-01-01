@@ -3,7 +3,7 @@ import { app } from 'electron';
 
 import { isDevEnv } from './utils.js';
 
-export const resolvePath = (): string => {
+export const resolvePreLoadPath = (): string => {
 	return path.join(
 		app.getAppPath(),
 		isDevEnv() ? '.' : '..',
