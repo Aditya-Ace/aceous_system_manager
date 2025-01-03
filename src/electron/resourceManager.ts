@@ -4,6 +4,7 @@ import os from 'os';
 import { BrowserWindow } from 'electron';
 
 import { POLLING_INTERVAL } from './constants.js';
+import { ipcWebContentsSend } from './utils.js';
 
 export const pollResources = (mainWindow: BrowserWindow) => {
 	setInterval(async () => {
@@ -11,7 +12,7 @@ export const pollResources = (mainWindow: BrowserWindow) => {
 			const cpuUsage = await getCPUUsage();
 			const ramUsage = await getRAMUsage();
 			const diskUsage = getDISKUsage();
-			mainWindow.webContents.send('statistics', {
+			ipcWebContentsSend(mainWindow.webContents, 'statistics', {
 				cpuUsage,
 				ramUsage,
 				diskUsage
@@ -22,7 +23,7 @@ export const pollResources = (mainWindow: BrowserWindow) => {
 	}, POLLING_INTERVAL);
 };
 
-const getCPUUsage = () => {
+const getCPUUsage = (): Promise<number> => {
 	return new Promise((resolve) => {
 		osUtils.cpuUsage((v) => {
 			resolve(v);
@@ -30,7 +31,7 @@ const getCPUUsage = () => {
 	});
 };
 
-const getRAMUsage = () => {
+const getRAMUsage = (): Promise<number> => {
 	return new Promise((resolve) => {
 		resolve(1 - osUtils.freememPercentage());
 	});

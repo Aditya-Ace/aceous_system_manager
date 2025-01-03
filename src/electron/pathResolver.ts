@@ -10,3 +10,6 @@ export const resolvePreLoadPath = (): string => {
 		'/dist-electron/preload.cjs'
 	);
 };
+
+export const resolveStaticPath = (): string =>
+	path.join(app.getAppPath(), '/dist-react/index.html');

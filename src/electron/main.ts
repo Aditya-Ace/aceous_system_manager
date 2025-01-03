@@ -1,10 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'path';
+import { app, BrowserWindow } from 'electron';
 
-import { isDevEnv } from './utils.js';
+import { ipcMainHandle, isDevEnv } from './utils.js';
 import { DEV_URL } from './constants.js';
 import { getStaticData, pollResources } from './resourceManager.js';
-import { resolvePreLoadPath } from './pathResolver.js';
+import { resolvePreLoadPath, resolveStaticPath } from './pathResolver.js';
 
 const handleOnReady = () => {
 	const mainWindow = new BrowserWindow({
@@ -14,10 +13,9 @@ const handleOnReady = () => {
 		}
 	});
 	if (isDevEnv()) mainWindow.loadURL(DEV_URL);
-	else
-		mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'));
+	else mainWindow.loadFile(resolveStaticPath());
 	pollResources(mainWindow);
-	ipcMain.handle('getStaticData', () => getStaticData());
+	ipcMainHandle('getStaticData', () => getStaticData());
 };
 
 app.on('ready', handleOnReady);

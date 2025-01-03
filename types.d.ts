@@ -16,6 +16,13 @@ type StaticData = {
 	totalMemoryGB: number;
 };
 
+declare global {
+	type EventPayloadMapping = {
+		statistics: Statistics;
+		getStaticData: StaticData;
+	};
+}
+
 type View = 'CPU' | 'RAM' | 'STORAGE';
 
 type FrameWindowAction = 'CLOSE' | 'MAXIMIZE' | 'MINIMIZE';
@@ -29,10 +36,11 @@ declare global {
 				callback: (statistics: Statistics) => void
 			) => UnsubscribeFunction;
 			getStaticData: () => Promise<StaticData>;
-			subscribeChangeView: (
-				callback: (view: View) => void
-			) => UnsubscribeFunction;
-			sendFrameAction: (payload: FrameWindowAction) => void;
 		};
 	}
 }
+
+// subscribeChangeView: (
+// 				callback: (view: View) => void
+// 			) => UnsubscribeFunction;
+// sendFrameAction: (payload: FrameWindowAction) => void;
